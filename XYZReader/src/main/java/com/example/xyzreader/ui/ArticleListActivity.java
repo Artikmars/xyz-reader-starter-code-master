@@ -40,11 +40,11 @@ import java.util.GregorianCalendar;
 public class ArticleListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String TAG = ArticleListActivity.class.toString();
+    private static final String TAG = "myLogs";
+    public Context context;
     private Toolbar mToolbar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
@@ -65,7 +65,7 @@ public class ArticleListActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         final View toolbarContainerView = findViewById(R.id.toolbar_container);
@@ -126,6 +126,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         public DynamicHeightNetworkImageView thumbnailView;
         public TextView titleView;
         public TextView subtitleView;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -199,10 +200,26 @@ public class ArticleListActivity extends AppCompatActivity implements
                                 + "<br/>" + " by "
                                 + mCursor.getString(ArticleLoader.Query.AUTHOR)));
             }
+            // RemoteEndpointUtil.fetchJsonArray();
+            Log.i(TAG, "imageURL: " + mCursor.getString(ArticleLoader.Query.THUMB_URL));
+          /*  Glide
+                    .with(getApplicationContext())
+                    //.load(RemoteEndpointUtil.photoURL.get(position))
+                    .load("http://d17h27t6h515a5.cloudfront.net/topher/2017/March/58c5be63_secondvariety/secondvariety.jpg")
+                    .apply(new RequestOptions().override(100, 100).placeholder(R.drawable.empty_detail))
+                    .into(holder.thumbnailView);
+*/
+           /*Picasso.get()
+                    .load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
+                    .resize(100,100)
+                    .centerCrop()
+                    .into(holder.thumbnailView);*/
+
             holder.thumbnailView.setImageUrl(
                     mCursor.getString(ArticleLoader.Query.THUMB_URL),
                     ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
-           // holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
+
+            // holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
         }
 
         @Override

@@ -4,10 +4,12 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,17 +17,29 @@ import okhttp3.Response;
 
 public class RemoteEndpointUtil {
     private static final String TAG = "RemoteEndpointUtil";
+    public static ArrayList<String> photoURL;
 
     private RemoteEndpointUtil() {
     }
 
     public static JSONArray fetchJsonArray() {
         String itemsJson = null;
+        photoURL = new ArrayList<>();
         try {
             itemsJson = fetchPlainText(Config.BASE_URL);
+            JSONArray jsonArray = new JSONArray(itemsJson);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                photoURL.add(jsonObject.optString("photo"));
+
+            }
+
+
         } catch (IOException e) {
             Log.e(TAG, "Error fetching items JSON", e);
             return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         // Parse JSON

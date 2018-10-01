@@ -6,6 +6,7 @@
     android:background="@color/theme_primary"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:elevation="@dimen/fab_elevation"
     app:titleTextColor="@color/white">
 
 </android.support.v7.widget.Toolbar>
